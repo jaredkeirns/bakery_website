@@ -1,0 +1,38 @@
+{% extends "sidebar.html" %}
+
+{% block content %}
+
+    <h1>All Bakery Items - Select query against Items table</h1>
+    <p>Clicking Add to Cart will add to customers session and doesn't utilize a database table</p>
+<form action="/all_products" method="POST">
+    <input name= filter_text type="text" placeholder="Filter">
+    <button value="filter" name="filter">Filter Results</button>
+</form>
+<p>
+<form action="/add_cart" method="POST">
+    <table>
+        <tr>
+            <th>Item Name</th>
+            <th>Vendor</th>
+            <th>Cost</th>
+            <th>Quantity Available</th>
+            <th>Quantity To Order</th>
+            <th>Action(s)</th>
+        </tr>
+        {% for key, value in data.items() %}
+        <tr>
+            {% for key, value in value.items() %}
+            <td id="{{ key }}">{{value}}</td>
+            {% endfor %}
+            <td>
+                <input type="number" size="8" placeholder="1" name="input_quantity {{key}}" value>
+            </td>
+            <td>
+                <button value="{{key}}" name="add_to_cart">Add to Cart</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+
+{% endblock %}

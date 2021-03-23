@@ -1,0 +1,55 @@
+{% extends "sidebar.html" %}
+
+{% block content %}
+    <h1>All saved payment items - Select query against payment_information table</h1>
+    <p>If the user isn't logged in, they will not see any saved payments. Clicking select payment will select that info
+        for the order. Selecting add payment will add to payment_information if the user is logged in</p>
+
+<table class="table">
+    <tr>
+        <th>Full Name</th>
+        <th>Card Number</th>
+        <th>Security Number</th>
+        <th>Card Expiration Date</th>
+        <th>Actions</th>
+    </tr>
+    {% for key, value in data.items() %}
+    <tr>
+        {% for key, value in value.items() %}
+            <td id="{{ key }}">{{value}}</td>
+        {% endfor %}
+        <td>
+            <form action="/edit_payment_info" method="POST">
+                <button value="{{ key }}" name="edit_payment">Edit Payment</button>
+            </form>
+            <form action="/delete_payment_info" method="POST">
+                <button value="{{ key }}" name="remove_payment">Remove Payment</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<form action="/add_payment_information" method="POST">
+    <table>
+        <tr>
+            <td>
+                <input type="text" name="customer_name" value>
+            </td>
+            <td>
+                <input type="number" name="card_number" value>
+            </td>
+            <td>
+                <input type="number" name="security_number" value>
+            </td>
+            <td>
+                <input type="date" name="expiration_date" value>
+            </td>
+            <td>
+                <button type=submit value="add_payment" name="add_button">Add Payment</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+{% endblock %}

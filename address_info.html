@@ -1,0 +1,58 @@
+{% extends "sidebar.html" %}
+
+{% block content %}
+    <h1>All saved addresses - Select query against addresses table</h1>
+    <p>If the user isn't logged in, they will not see any saved addresses. Clicking select address will select that info
+        to ship the order. Selecting add address will add to addresses if the user is logged in</p>
+
+<table class="table">
+    <tr>
+        <th>Primary Street Address</th>
+        <th>Secondary Street Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip Code</th>
+        <th>Actions</th>
+    </tr>
+    {% for key, value in data.items() %}
+    <tr>
+        {% for key, value in value.items() %}
+            <td id="{{ key }}">{{value}}</td>
+        {% endfor %}
+        <td>
+            <form action="/edit_address_info" method="POST">
+                <button value="{{ key }}" name="edit_address">Edit Address</button>
+            </form>
+            <form action="/delete_address_info" method="POST">
+                <button value="{{ key }}" name="remove_address">Remove Address</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<form action="/add_address_information" method="POST">
+    <table>
+        <tr>
+            <td>
+                <input type="text" name="street_address_1" value>
+            </td>
+            <td>
+                <input type="text" name="street_address_2" value>
+            </td>
+            <td>
+                <input type="text" name="city" value>
+            </td>
+            <td>
+                <input type="text" name="state" value>
+            </td>
+            <td>
+                <input type="text" name="zip_code" value>
+            </td>
+            <td>
+                <button type=submit value="add_address" name="add_button">Add Address</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+{% endblock %}

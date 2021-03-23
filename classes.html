@@ -1,0 +1,36 @@
+{% extends "sidebar.html" %}
+
+{% block content %}
+
+    <h1>All Available Classes - Select query against Classes table</h1>
+    <p>Clicking Enroll will add row to enrollments table</p>
+
+<form action="/classes" method="POST">
+    <input name= filter_text type="text" placeholder="Filter">
+    <button value="filter" name="filter">Filter Results</button>
+</form>
+<p>
+<form action="/enroll_in_class" method="POST">
+    <table>
+        <tr>
+            <th>Class Name</th>
+            <th>Date of Class</th>
+            <th>Instructor</th>
+            <th>Available Seats</th>
+            <th>Cost</th>
+            <th>Action(s)</th>
+        </tr>
+        {% for key, value in data.items() %}
+        <tr>
+            {% for key, value in value.items() %}
+                <td id="{{ key }}">{{value}}</td>
+            {% endfor %}
+            <td>
+                <button type="submit" name="enroll" value="{{key}}">Enroll</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+
+{% endblock %}
